@@ -79,6 +79,15 @@ export default function Bookings() {
         return true;
     });
 
+    const formatDateTime = (date, time) => {
+        if (!date || !time) return "—";
+        const d = new Date(`${date}T${time}`);
+        return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        })}`;
+    };
+
     return (
         <>
             <Navbar />
@@ -168,16 +177,16 @@ export default function Bookings() {
 
                                         {/* DATE */}
                                         <td className="p-3 text-xs">
-                                            <div>
-                                                {b.bookingDate} {b.bookingTime}
-                                            </div>
+                                            <div>{formatDateTime(b.bookingDate, b.bookingTime)}</div>
 
-                                            {(b.returnDate || b.returnTime) && (
+                                            {(b.returnDate && b.returnTime) && (
                                                 <div className="text-gray-500 mt-1">
-                                                    Return: {b.returnDate || ""} {b.returnTime || ""}
+                                                    Return: {formatDateTime(b.returnDate, b.returnTime)}
                                                 </div>
                                             )}
                                         </td>
+
+
 
 
                                         {/* SOURCE */}
