@@ -79,13 +79,30 @@ export default function Bookings() {
         return true;
     });
 
+
+
     const formatDateTime = (date, time) => {
         if (!date || !time) return "—";
-        const d = new Date(`${date}T${time}`);
-        return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-        })}`;
+
+        // Check if it's a standard ISO date (YYYY-MM-DD)
+        const isStandardDate = /^\d{4}-\d{2}-\d{2}$/.test(date);
+
+        if (!isStandardDate) {
+            // If it's a custom string like "Today" or "ASAP", return as is
+            return `${date} ${time}`;
+        }
+
+        try {
+            const d = new Date(`${date}T${time}`);
+            if (isNaN(d.getTime())) return `${date} ${time}`; // Fallback if invalid
+
+            return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            })}`;
+        } catch (e) {
+            return `${date} ${time}`;
+        }
     };
 
     return (
