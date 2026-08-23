@@ -25,7 +25,7 @@ export default function Drivers() {
             setLoading(true);
             const res = await api.get("/drivers");
             setDrivers(res.data.drivers);
-        } catch (err) {
+        } catch {
             setError("Failed to load drivers");
         } finally {
             setLoading(false);
@@ -54,11 +54,11 @@ export default function Drivers() {
         <>
             <Navbar />
 
-            <div className="p-6 max-w-6xl mx-auto">
-                <h2 className="text-2xl font-semibold mb-6">Drivers</h2>
+            <main className="max-w-6xl mx-auto px-4 py-6 sm:px-6 sm:py-8">
+                <h2 className="text-2xl sm:text-3xl font-semibold mb-5 sm:mb-6">Drivers</h2>
 
                 {/* ADD DRIVER */}
-                <div className="bg-white rounded-lg shadow p-6 mb-6">
+                <div className="mb-6 rounded-xl border bg-white p-4 shadow-sm sm:p-6">
                     <h3 className="text-lg font-semibold mb-4">Add Driver</h3>
 
                     {error && (
@@ -72,7 +72,8 @@ export default function Drivers() {
                         className="grid grid-cols-1 md:grid-cols-2 gap-4"
                     >
                         <input
-                            className="border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            className="min-h-12 min-w-0 rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            aria-label="Driver name"
                             placeholder="Driver Name"
                             value={form.name}
                             onChange={(e) =>
@@ -82,7 +83,9 @@ export default function Drivers() {
                         />
 
                         <input
-                            className="border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            type="tel"
+                            className="min-h-12 min-w-0 rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            aria-label="Phone number"
                             placeholder="Phone Number"
                             value={form.phone}
                             onChange={(e) =>
@@ -92,7 +95,8 @@ export default function Drivers() {
                         />
 
                         <input
-                            className="border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            className="min-h-12 min-w-0 rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            aria-label="Car model"
                             placeholder="Car Model"
                             value={form.carModel}
                             onChange={(e) =>
@@ -101,7 +105,8 @@ export default function Drivers() {
                         />
 
                         <input
-                            className="border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            className="min-h-12 min-w-0 rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            aria-label="Car registration number"
                             placeholder="Car Number"
                             value={form.carNumber}
                             onChange={(e) =>
@@ -112,7 +117,7 @@ export default function Drivers() {
                         <div className="md:col-span-2">
                             <button
                                 type="submit"
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded font-medium"
+                                className="min-h-12 w-full rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700 sm:w-auto"
                             >
                                 Add Driver
                             </button>
@@ -121,7 +126,7 @@ export default function Drivers() {
                 </div>
 
                 {/* DRIVER LIST */}
-                <div className="bg-white rounded-lg shadow p-6">
+                <div className="rounded-xl border bg-white p-4 shadow-sm sm:p-6">
                     <h3 className="text-lg font-semibold mb-4">Driver List</h3>
 
                     {loading && (
@@ -133,7 +138,29 @@ export default function Drivers() {
                     )}
 
                     {!loading && drivers.length > 0 && (
-                        <div className="overflow-x-auto">
+                        <div className="space-y-3 md:hidden">
+                            {drivers.map((d) => (
+                                <article key={d._id} className="rounded-xl border border-gray-200 p-4">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                            <h4 className="break-words font-semibold text-gray-900">{d.name}</h4>
+                                            <p className="mt-1 break-words text-sm text-gray-600">{d.phone}</p>
+                                        </div>
+                                        <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${d.isActive ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
+                                            {d.isActive ? "Active" : "Inactive"}
+                                        </span>
+                                    </div>
+                                    <div className="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-600">
+                                        <span className="font-medium text-gray-800">Vehicle: </span>
+                                        <span className="break-words">{d.carModel || "Not provided"}{d.carNumber && ` (${d.carNumber})`}</span>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
+
+                    {!loading && drivers.length > 0 && (
+                        <div className="hidden overflow-x-auto md:block">
                             <table className="min-w-full text-sm border">
                                 <thead className="bg-gray-100 text-gray-600">
                                     <tr>
@@ -173,7 +200,7 @@ export default function Drivers() {
                         </div>
                     )}
                 </div>
-            </div>
+            </main>
         </>
     );
 }

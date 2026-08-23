@@ -38,10 +38,10 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4">
+        <div className="flex min-h-[100dvh] items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4 py-6">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-8"
+                className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl sm:p-8"
             >
                 {/* Header */}
                 <div className="text-center mb-6">
@@ -72,7 +72,7 @@ export default function Login() {
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={loading}
                         required
-                        className="w-full border rounded-lg px-3 py-2 text-sm
+                        className="min-h-12 w-full border rounded-lg px-3 py-2 text-base
               focus:outline-none focus:ring-2 focus:ring-blue-500
               disabled:bg-gray-100"
                     />
@@ -90,7 +90,7 @@ export default function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         disabled={loading}
                         required
-                        className="w-full border rounded-lg px-3 py-2 text-sm
+                        className="min-h-12 w-full border rounded-lg px-3 py-2 text-base
               focus:outline-none focus:ring-2 focus:ring-blue-500
               disabled:bg-gray-100"
                     />
@@ -100,7 +100,7 @@ export default function Login() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full py-2.5 rounded-lg text-white font-medium transition
+                    className={`min-h-12 w-full py-2.5 rounded-lg text-white font-medium transition
             ${loading
                             ? "bg-blue-400 cursor-not-allowed"
                             : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800"
